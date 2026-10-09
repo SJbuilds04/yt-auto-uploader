@@ -3,5 +3,7 @@
     "description": "Full description here.\n\nTimestamps:\n00:00 Intro\n01:30 Main content",
     "tags": ["vlog", "tutorial", "youtube"],
     "categoryId": "22",
-    "privacyStatus": "public"
+    "privacyStatus": "public",
+    "selfDeclaredMadeForKids": false,
+    "containsSyntheticMedia": false
 }

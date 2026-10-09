@@ -492,6 +492,14 @@ def generate_metadata_with_gemini(video_path: Path, config: dict) -> dict | None
 # ---------------------------------------------------------------------------
 # YouTube upload
 # ---------------------------------------------------------------------------
+def _get_optional_bool(meta: dict, key: str) -> bool:
+    """Return an optional per-video boolean setting, defaulting to False."""
+    value = meta.get(key, False)
+    if not isinstance(value, bool):
+        raise TypeError(f"{key} must be a bool, got {type(value).__name__}")
+    return value
+
+
 def upload_to_youtube(youtube, video_path: Path, meta: dict) -> dict:
     # YouTube requires privacyStatus="private" when publishAt is set
     privacy = "private" if meta.get("publishAt") else meta["privacyStatus"]
@@ -503,7 +511,9 @@ def upload_to_youtube(youtube, video_path: Path, meta: dict) -> dict:
             "categoryId":  meta["categoryId"],
         },
         "status": {
-            "privacyStatus": privacy,
+            "privacyStatus":             privacy,
+            "selfDeclaredMadeForKids":   _get_optional_bool(meta, "selfDeclaredMadeForKids"),
+            "containsSyntheticMedia":    _get_optional_bool(meta, "containsSyntheticMedia"),
         },
     }
     if meta.get("publishAt"):
